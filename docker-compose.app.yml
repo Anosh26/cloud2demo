@@ -1,0 +1,18 @@
+# Docker Compose for VM 2 (Application VM)
+# Usage: DB_HOST=<VM1_IP> docker compose -f docker-compose.app.yml up -d --build
+
+services:
+  web:
+    build: ./app
+    container_name: flask_web
+    restart: always
+    ports:
+      - "0.0.0.0:5000:5000"
+    environment:
+      # Reads from .env file or command-line environment variable
+      DB_HOST: ${DB_HOST:-127.0.0.1}
+      DB_NAME: ${DB_NAME:-app_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_PORT: ${DB_PORT:-5432}
+      PORT: 5000

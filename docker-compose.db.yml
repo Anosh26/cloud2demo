@@ -1,0 +1,20 @@
+# Docker Compose for VM 1 (Database VM)
+# Usage: docker compose -f docker-compose.db.yml up -d
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      # Exposes 5432 so VM 2 (App Server) can reach PostgreSQL
+      - "0.0.0.0:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
